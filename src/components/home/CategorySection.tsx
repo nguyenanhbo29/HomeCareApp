@@ -12,10 +12,12 @@ import { Category } from "../../types/home";
 
 interface CategorySectionProps {
   data: Category[];
+  onPressCategory?: (category: Category) => void;
 }
 
 export default function CategorySection({
   data,
+  onPressCategory,
 }: CategorySectionProps) {
   return (
     <View style={styles.container}>
@@ -23,7 +25,7 @@ export default function CategorySection({
       <View style={styles.header}>
         <Text style={styles.title}>Categories</Text>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => onPressCategory && onPressCategory(data[0])}>
           <Text style={styles.seeAll}>See All</Text>
         </TouchableOpacity>
       </View>
@@ -34,10 +36,13 @@ export default function CategorySection({
         keyExtractor={(item) => item.id}
         horizontal
         showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <CategoryItem item={item} />
-        )}
         contentContainerStyle={styles.list}
+        renderItem={({ item }) => (
+          <CategoryItem
+            item={item}
+            onPress={() => onPressCategory?.(item)}
+          />
+        )}
       />
     </View>
   );
@@ -52,7 +57,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-
     marginBottom: 16,
   },
 

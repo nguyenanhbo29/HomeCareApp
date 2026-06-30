@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 
-export default function ProfileScreen() {
+export default function BookingScreen() {
   return (
     <View
       style={{
@@ -9,7 +9,7 @@ export default function ProfileScreen() {
         alignItems: "center",
       }}
     >
-      <Text>Profile Screen</Text>
+      <Text>Booking Screen</Text>
     </View>
   );
 }

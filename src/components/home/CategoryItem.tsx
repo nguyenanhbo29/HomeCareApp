@@ -4,8 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { Category } from "../../types/home";
 
 interface Props {
-  item: Category;
-  onPress?: () => void;
+    item: Category;
+    onPress?: () => void;
 }
 
 export default function CategoryItem({ item, onPress }: Props) {

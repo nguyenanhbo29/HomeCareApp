@@ -47,3 +47,33 @@ export const popularServices: Service[] = [
     isFavorite: false,
   },
 ];
+
+export const recommendedServices: Service[] = [
+  {
+    id: "5",
+    name: "Pet Care",
+    image: "",
+    price: 120000,
+    rating: 4.9,
+    category: "Pet",
+    isFavorite: false,
+  },
+  {
+    id: "6",
+    name: "AC Cleaning",
+    image: "",
+    price: 180000,
+    rating: 4.8,
+    category: "Cleaning",
+    isFavorite: false,
+  },
+  {
+    id: "7",
+    name: "Cooking",
+    image: "",
+    price: 250000,
+    rating: 4.7,
+    category: "Cooking",
+    isFavorite: false,
+  },
+];
