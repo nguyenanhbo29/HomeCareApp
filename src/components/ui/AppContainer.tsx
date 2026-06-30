@@ -1,19 +1,16 @@
-import React from "react";
-import { SafeAreaView, StyleSheet, ViewStyle } from "react-native";
-
-import { Colors, Spacing } from "../../theme";
+import { ReactNode } from "react";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface AppContainerProps {
-  children: React.ReactNode;
-  style?: ViewStyle;
+  children: ReactNode;
 }
 
 export default function AppContainer({
   children,
-  style,
 }: AppContainerProps) {
   return (
-    <SafeAreaView style={[styles.container, style]}>
+    <SafeAreaView style={styles.container}>
       {children}
     </SafeAreaView>
   );
@@ -22,7 +19,7 @@ export default function AppContainer({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
-    padding: Spacing.md,
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 20,
   },
 });
