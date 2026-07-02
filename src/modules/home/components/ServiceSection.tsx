@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { Service } from "../../types/home";
+import { Service } from "../types/home";
 import ServiceCard from "./ServiceCard";
 
 interface Props {

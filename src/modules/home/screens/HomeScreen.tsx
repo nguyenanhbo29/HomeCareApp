@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { ScrollView } from "react-native";
 
-import AppContainer from "../../components/ui/AppContainer";
-import HomeHeader from "../../components/home/HomeHeader";
-import SearchBar from "../../components/home/SearchBar";
-import PromotionBanner from "../../components/home/PromotionBanner";
-import CategorySection from "../../components/home/CategorySection";
-import PopularServiceSection from "../../components/home/ServiceSection";
+import AppContainer from "../../../components/common/AppContainer";
+import HomeHeader from "../components/HomeHeader";
+import SearchBar from "../components/SearchBar";
+import PromotionBanner from "../components/PromotionBanner";
+import CategorySection from "../components/CategorySection";
+import PopularServiceSection from "../components/ServiceSection";
 
 import {
   categories,
   popularServices,
   recommendedServices,
-} from "../../constants/homeData";
+} from "../data/homeData";
 import { useRouter } from "expo-router";
 
 const HomeScreen = () => {

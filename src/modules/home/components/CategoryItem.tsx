@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Category } from "../../types/home";
+import { Category } from "../types/home";
 
 interface Props {
     item: Category;

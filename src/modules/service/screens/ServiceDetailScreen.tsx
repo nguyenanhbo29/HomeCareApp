@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 
-import AppContainer from "../../components/ui/AppContainer";
+import AppContainer from "../../../components/common/AppContainer";
 
 export default function ServiceDetailScreen() {
   return (

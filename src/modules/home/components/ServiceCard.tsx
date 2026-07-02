@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Service } from "../../types/home";
+import { Service } from "../types/home";
 
 interface Props {
   item: Service;

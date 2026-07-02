@@ -2,10 +2,10 @@ import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 
-import AppContainer from "../../components/ui/AppContainer";
-import ServiceHeader from "../../components/service/ServiceHeader";
-import ServiceCard from "../../components/service/ServiceCard";
-import { services } from "../../constants/serviceData";
+import AppContainer from "../../../components/common/AppContainer";
+import ServiceHeader from "../components/ServiceHeader";
+import ServiceCard from "../components/ServiceCard";
+import { services } from "../data/serviceData";
 
 
 export default function ServiceListScreen() {

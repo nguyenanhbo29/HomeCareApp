@@ -8,7 +8,7 @@ import {
 } from "react-native";
 
 import CategoryItem from "./CategoryItem";
-import { Category } from "../../types/home";
+import { Category } from "../types/home";
 
 interface CategorySectionProps {
   data: Category[];
