@@ -12,3 +12,12 @@ export interface Service {
 
   isFavorite?: boolean;
 }
+
+import { Ionicons } from "@expo/vector-icons";
+
+export interface ServiceFeature {
+  id: string;
+  icon: keyof typeof Ionicons.glyphMap;
+  title: string;
+  color: string;
+}

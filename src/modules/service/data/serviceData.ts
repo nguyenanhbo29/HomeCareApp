@@ -54,3 +54,46 @@ export const services: Service[] = [
     isFavorite: false,
   },
 ];
+
+export const serviceFeatures = [
+  {
+    id: "1",
+    icon: "shield-checkmark",
+    title: "Insured",
+    color: "#4F46E5",
+  },
+  {
+    id: "2",
+    icon: "star",
+    title: "Top Rated",
+    color: "#F59E0B",
+  },
+  {
+    id: "3",
+    icon: "time",
+    title: "On Time",
+    color: "#10B981",
+  },
+];
+
+export const serviceDescription =
+  "Our professional home cleaning service provides a spotless and healthy living environment. Experienced cleaners use high-quality equipment and eco-friendly products to ensure every corner of your home is cleaned with care. Choose flexible schedules that fit your lifestyle and enjoy a cleaner, more comfortable home.";
+
+  export const reviews = [
+  {
+    id: "1",
+    user: "Emily",
+    rating: 5,
+    date: "2 days ago",
+    comment:
+      "Amazing cleaning service! My apartment has never looked this clean.",
+  },
+  {
+    id: "2",
+    user: "Michael",
+    rating: 4,
+    date: "1 week ago",
+    comment:
+      "Staff arrived on time and did a fantastic job.",
+  },
+];

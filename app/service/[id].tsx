@@ -1,5 +1,5 @@
-// import ServiceDetailScreen from "../../src/screens/service/ServiceDetailScreen";
+import ServiceDetailScreen from "../../src/modules/service/screens/ServiceDetailScreen";
 
-// export default function Page() {
-//   return <ServiceDetailScreen />;
-// }
+export default function Page() {
+    return <ServiceDetailScreen />;
+}

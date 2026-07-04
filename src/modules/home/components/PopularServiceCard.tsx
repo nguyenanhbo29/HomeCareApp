@@ -13,11 +13,13 @@ import ServiceCard from "./ServiceCard";
 interface Props {
   title: string;
   data: Service[];
+  onPressItem?: (service: Service) => void;
 }
 
 export default function PopularServiceSection({
   title,
   data,
+  onPressItem,
 }: Props) {
   return (
     <View style={styles.container}>
@@ -35,11 +37,14 @@ export default function PopularServiceSection({
         horizontal
         data={data}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <ServiceCard item={item} />
-        )}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.list}
+        renderItem={({ item }) => (
+          <ServiceCard
+            item={item}
+            onPress={() => onPressItem?.(item)}
+          />
+        )}
       />
     </View>
   );
@@ -60,6 +65,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "700",
+    color: "#111827",
   },
 
   seeAll: {

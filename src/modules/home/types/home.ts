@@ -1,16 +1,33 @@
+import { Ionicons } from "@expo/vector-icons";
+
 export interface Category {
   id: string;
-  title: string;
-  icon: string;
+  name: string;
+  icon: keyof typeof Ionicons.glyphMap;
   color: string;
 }
 
 export interface Service {
   id: string;
+
   name: string;
+  description: string;
+
   image: string;
-  price: number;
-  rating: number;
+
   category: string;
+
+  price: number;
+
+  rating: number;
+  reviews: number;
+
+  duration: string;
+
+  icon: keyof typeof Ionicons.glyphMap;
+  color: string;
+
+  badge?: string;
+
   isFavorite?: boolean;
 }
