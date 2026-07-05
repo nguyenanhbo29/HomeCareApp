@@ -12,22 +12,21 @@ import PopularServiceSection from "../components/PopularServiceCard";
 import RecommendedSection from "../components/RecommendedSection";
 
 import useCategories from "../../../hooks/useCategories";
-
-import {
-  popularServices,
-  recommendedServices,
-} from "../data/homeData";
+import usePopularServices from "../../../hooks/usePopularServices";
+import useRecommendedServices from "../../../hooks/useRecommendedServices";
 
 export default function HomeScreen() {
   const router = useRouter();
 
   const [keyword, setKeyword] = useState("");
 
-  const {
-    categories,
-    loading,
-  } = useCategories();
+  const { categories } = useCategories();
 
+  const { services: popularServices } =
+    usePopularServices();
+
+  const { services: recommendedServices } =
+    useRecommendedServices();
 
   return (
     <AppContainer>

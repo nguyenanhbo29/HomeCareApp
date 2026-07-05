@@ -1,32 +1,36 @@
-import axiosClient from "../api/axios";
+import api from "../api/axios";
 import { ENDPOINTS } from "../api/endpoints";
 
-export const serviceService = {
-  getPopular: async () => {
-    const response = await axiosClient.get(
-      ENDPOINTS.POPULAR_SERVICES
-    );
-    return response.data;
-  },
+import { Service } from "../modules/home/types/home";
 
-  getRecommended: async () => {
-    const response = await axiosClient.get(
-      ENDPOINTS.RECOMMENDED_SERVICES
-    );
-    return response.data;
-  },
+export async function getAllServices(): Promise<Service[]> {
+  const response = await api.get(ENDPOINTS.SERVICES);
 
-  getAll: async () => {
-    const response = await axiosClient.get(
-      ENDPOINTS.SERVICES
-    );
-    return response.data;
-  },
+  return response.data.data;
+}
 
-  getById: async (id: string) => {
-    const response = await axiosClient.get(
-      `${ENDPOINTS.SERVICES}/${id}`
-    );
-    return response.data;
-  },
-};
+export async function getPopularServices(): Promise<Service[]> {
+  const response = await api.get(
+    ENDPOINTS.POPULAR_SERVICES
+  );
+
+  return response.data.data;
+}
+
+export async function getRecommendedServices(): Promise<Service[]> {
+  const response = await api.get(
+    ENDPOINTS.RECOMMENDED_SERVICES
+  );
+
+  return response.data.data;
+}
+
+export async function getServiceDetail(
+  id: string
+): Promise<Service> {
+  const response = await api.get(
+    ENDPOINTS.SERVICE_DETAIL(id)
+  );
+
+  return response.data.data;
+}

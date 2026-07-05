@@ -1,6 +1,14 @@
 import React from "react";
-import { ScrollView, StyleSheet } from "react-native";
-import { useRouter } from "expo-router";
+import {
+  ScrollView,
+  StyleSheet,
+  ActivityIndicator,
+  View,
+} from "react-native";
+import {
+  useRouter,
+  useLocalSearchParams,
+} from "expo-router";
 
 import AppContainer from "../../../components/common/AppContainer";
 
@@ -11,14 +19,46 @@ import AboutSection from "../components/AboutSection";
 import ReviewSection from "../components/ReviewSection";
 import BottomBookingBar from "../components/BottomBookingBar";
 
+import useServiceDetail from "../../../hooks/useServiceDetail";
+
 import {
   serviceFeatures,
-  serviceDescription,
   reviews,
 } from "../data/serviceData";
 
 export default function ServiceDetailScreen() {
   const router = useRouter();
+
+  const { id } = useLocalSearchParams<{
+    id: string;
+  }>();
+
+  const {
+    service,
+    loading,
+  } = useServiceDetail(id);
+
+  if (loading) {
+    return (
+      <AppContainer>
+        <View style={styles.loading}>
+          <ActivityIndicator
+            size="large"
+            color="#6C4CF1"
+          />
+        </View>
+      </AppContainer>
+    );
+  }
+
+  if (!service) {
+    return (
+      <AppContainer>
+        <View style={styles.loading}>
+        </View>
+      </AppContainer>
+    );
+  }
 
   return (
     <AppContainer>
@@ -27,7 +67,8 @@ export default function ServiceDetailScreen() {
         contentContainerStyle={styles.content}
       >
         <ServiceHero
-          isFavorite={false}
+          image={service.image}
+          isFavorite={service.isFavorite}
           onBack={() => router.back()}
           onFavorite={() => {
             console.log("Favorite");
@@ -35,12 +76,12 @@ export default function ServiceDetailScreen() {
         />
 
         <ServiceInfo
-          badge="Popular"
-          name="House Cleaning"
-          price={18}
-          rating={4.9}
-          reviews={1280}
-          duration="2 hours"
+          badge={service.badge}
+          name={service.name}
+          price={service.price}
+          rating={service.rating}
+          reviews={service.reviews}
+          duration={service.duration}
         />
 
         <FeatureBadges
@@ -48,10 +89,8 @@ export default function ServiceDetailScreen() {
         />
 
         <AboutSection
-          description={serviceDescription}
-          onReadMore={() => {
-            console.log("Read More");
-          }}
+          description={service.description}
+          onReadMore={() => {}}
         />
 
         <ReviewSection
@@ -60,7 +99,7 @@ export default function ServiceDetailScreen() {
       </ScrollView>
 
       <BottomBookingBar
-        price={18}
+        price={service.price}
         onBookNow={() => {
           router.push("/booking");
         }}
@@ -72,5 +111,11 @@ export default function ServiceDetailScreen() {
 const styles = StyleSheet.create({
   content: {
     paddingBottom: 20,
+  },
+
+  loading: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

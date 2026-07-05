@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -28,11 +29,19 @@ export default function ServiceCard({
     >
       {/* Image */}
       <View style={styles.image}>
-        <Ionicons
-          name="image-outline"
-          size={42}
-          color="#BDBDBD"
-        />
+        {item.image ? (
+          <Image
+            source={{ uri: item.image }}
+            style={styles.imageView}
+            resizeMode="cover"
+          />
+        ) : (
+          <Ionicons
+            name="image-outline"
+            size={42}
+            color="#BDBDBD"
+          />
+        )}
 
         {/* Favorite */}
         <TouchableOpacity
@@ -53,12 +62,19 @@ export default function ServiceCard({
       </View>
 
       {/* Content */}
-      <Text style={styles.name}>
-        {item.name}
-      </Text>
+      <Text
+    style={styles.name}
+    numberOfLines={2}
+>
+    {item.name}
+</Text>
 
-      <Text style={styles.category}>
-        {item.category}
+      <Text style={styles.category}
+      numberOfLines={1}>
+        
+        {typeof item.category === "string"
+          ? item.category
+          : item.category?.name}
       </Text>
 
       <View style={styles.footer}>
@@ -84,14 +100,11 @@ export default function ServiceCard({
 
 const styles = StyleSheet.create({
   card: {
-    width: 220,
-
+    width:220,
+    height:320,
     marginRight: 16,
-
     padding: 15,
-
     backgroundColor: "#FFFFFF",
-
     borderRadius: 24,
 
     shadowColor: "#000",
@@ -107,15 +120,18 @@ const styles = StyleSheet.create({
 
   image: {
     height: 150,
-
     marginBottom: 15,
-
     borderRadius: 20,
-
     backgroundColor: "#ECECEC",
+    overflow: "hidden",
 
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  imageView: {
+    width: "100%",
+    height: "100%",
   },
 
   favoriteButton: {
@@ -146,25 +162,29 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#111827",
-  },
+  fontSize: 18,
+  fontWeight: "700",
+  color: "#111827",
 
-  category: {
-    marginTop: 4,
+  height: 48,
+  lineHeight: 24,
+},
 
-    fontSize: 14,
-    color: "#6B7280",
-  },
+category: {
+  marginTop: 4,
+  fontSize: 14,
+  color: "#6B7280",
 
-  footer: {
-    marginTop: 12,
+  height: 20,
+},
 
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
+footer: {
+  marginTop: "auto",
+
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+},
 
   price: {
     fontSize: 18,

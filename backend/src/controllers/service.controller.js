@@ -1,59 +1,111 @@
-const {
-  getPopularServices,
-  getRecommendedServices,
-  getAllServices,
-  getServiceById,
-  seedServices,
-} = require("../services/service.service");
+const serviceService = require("../services/service.service");
+
+async function listServices(req, res) {
+  try {
+    const services = await serviceService.getAllServices();
+
+    res.json({
+      success: true,
+      message: "Services fetched successfully",
+      data: services,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
 
 async function listPopularServices(req, res) {
   try {
-    await seedServices();
-    const services = await getPopularServices();
-    return res.status(200).json(services);
+    const services = await serviceService.getPopularServices();
+
+    res.json({
+      success: true,
+      message: "Popular services fetched successfully",
+      data: services,
+    });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 }
 
 async function listRecommendedServices(req, res) {
   try {
-    await seedServices();
-    const services = await getRecommendedServices();
-    return res.status(200).json(services);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-}
+    const services = await serviceService.getRecommendedServices();
 
-async function listServices(req, res) {
-  try {
-    await seedServices();
-    const services = await getAllServices();
-    return res.status(200).json(services);
+    res.json({
+      success: true,
+      message: "Recommended services fetched successfully",
+      data: services,
+    });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 }
 
 async function getService(req, res) {
   try {
-    await seedServices();
-    const service = await getServiceById(req.params.id);
+    const service = await serviceService.getServiceById(req.params.id);
 
     if (!service) {
-      return res.status(404).json({ message: "Service not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Service not found",
+      });
     }
 
-    return res.status(200).json(service);
+    res.json({
+      success: true,
+      message: "Service fetched successfully",
+      data: service,
+    });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
+
+async function seedServices(req, res) {
+  try {
+    const services = await serviceService.seedServices();
+
+    res.json({
+      success: true,
+      message: "Services seeded successfully",
+      data: services,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 }
 
 module.exports = {
+  listServices,
   listPopularServices,
   listRecommendedServices,
-  listServices,
   getService,
+  seedServices,
 };

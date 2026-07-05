@@ -3,22 +3,45 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 interface ServiceHeroProps {
+  image?: string;
   isFavorite?: boolean;
   onBack?: () => void;
   onFavorite?: () => void;
 }
 
 export default function ServiceHero({
+  image,
   isFavorite = false,
   onBack,
   onFavorite,
 }: ServiceHeroProps) {
   return (
     <View style={styles.container}>
+      {/* Background Image */}
+      {image ? (
+        <Image
+          source={{ uri: image }}
+          style={styles.image}
+          resizeMode="cover"
+        />
+      ) : (
+        <View style={styles.placeholder}>
+          <Ionicons
+            name="image-outline"
+            size={80}
+            color="rgba(255,255,255,0.7)"
+          />
+        </View>
+      )}
+
+      {/* Dark Overlay */}
+      <View style={styles.overlay} />
+
       {/* Back Button */}
       <TouchableOpacity
         style={styles.circleButton}
@@ -31,7 +54,7 @@ export default function ServiceHero({
         />
       </TouchableOpacity>
 
-      {/* Favorite */}
+      {/* Favorite Button */}
       <TouchableOpacity
         style={[
           styles.circleButton,
@@ -46,18 +69,9 @@ export default function ServiceHero({
               : "heart-outline"
           }
           size={24}
-          color="#111827"
+          color="#FF4D6D"
         />
       </TouchableOpacity>
-
-      {/* Placeholder Image */}
-      <View style={styles.iconContainer}>
-        <Ionicons
-          name="sparkles-outline"
-          size={140}
-          color="rgba(255,255,255,0.35)"
-        />
-      </View>
     </View>
   );
 }
@@ -65,14 +79,27 @@ export default function ServiceHero({
 const styles = StyleSheet.create({
   container: {
     height: 300,
-
     borderBottomLeftRadius: 28,
     borderBottomRightRadius: 28,
+    overflow: "hidden",
+    backgroundColor: "#ECECEC",
+  },
 
-    backgroundColor: "#6C4CF1",
+  image: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+  },
 
+  placeholder: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.18)",
   },
 
   circleButton: {
@@ -91,16 +118,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
 
-    zIndex: 10,
+    zIndex: 100,
   },
 
   favoriteButton: {
     left: undefined,
     right: 20,
-  },
-
-  iconContainer: {
-    justifyContent: "center",
-    alignItems: "center",
   },
 });

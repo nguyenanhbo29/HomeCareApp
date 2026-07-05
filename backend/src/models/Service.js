@@ -7,50 +7,76 @@ const serviceSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+
     description: {
       type: String,
-      default: "",
+      required: true,
     },
+
     image: {
       type: String,
       default: "",
     },
+
     category: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
       required: true,
-      trim: true,
     },
+
     price: {
       type: Number,
       required: true,
     },
+
     rating: {
       type: Number,
-      default: 0,
+      default: 5,
     },
+
     reviews: {
       type: Number,
       default: 0,
     },
+
     duration: {
+      type: String,
+      required: true,
+    },
+
+    icon: {
       type: String,
       default: "",
     },
-    icon: {
-      type: String,
-      default: "sparkles",
-    },
+
     color: {
       type: String,
       default: "#6C4CF1",
     },
+
     badge: {
       type: String,
       default: "",
     },
+
+    isPopular: {
+      type: Boolean,
+      default: false,
+    },
+
+    isRecommended: {
+      type: Boolean,
+      default: false,
+    },
+
     isFavorite: {
       type: Boolean,
       default: false,
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
     },
   },
   {
