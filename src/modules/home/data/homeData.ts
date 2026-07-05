@@ -1,31 +1,5 @@
 import { Category, Service } from "../types/home";
 
-export const categories: Category[] = [
-  {
-    id: "1",
-    name: "House Cleaning",
-    icon: "sparkles",
-    color: "#6C4CF1",
-  },
-  {
-    id: "2",
-    name: "Laundry",
-    icon: "shirt",
-    color: "#2196F3",
-  },
-  {
-    id: "3",
-    name: "AC Cleaning",
-    icon: "snow",
-    color: "#00C853",
-  },
-  {
-    id: "4",
-    name: "Pet Care",
-    icon: "paw",
-    color: "#FF9800",
-  },
-];
 
 export const popularServices: Service[] = [
   {

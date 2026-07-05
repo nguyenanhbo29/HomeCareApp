@@ -9,6 +9,7 @@ interface Props {
 }
 
 export default function CategoryItem({ item, onPress }: Props) {
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -29,7 +30,7 @@ export default function CategoryItem({ item, onPress }: Props) {
       </View>
 
       <Text style={styles.title}>
-        {item.title}
+        {item.name}
       </Text>
     </TouchableOpacity>
   );

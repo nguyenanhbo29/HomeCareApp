@@ -11,16 +11,23 @@ import CategorySection from "../components/CategorySection";
 import PopularServiceSection from "../components/PopularServiceCard";
 import RecommendedSection from "../components/RecommendedSection";
 
+import useCategories from "../../../hooks/useCategories";
+
 import {
-  categories,
   popularServices,
   recommendedServices,
 } from "../data/homeData";
 
-const HomeScreen = () => {
+export default function HomeScreen() {
   const router = useRouter();
 
   const [keyword, setKeyword] = useState("");
+
+  const {
+    categories,
+    loading,
+  } = useCategories();
+
 
   return (
     <AppContainer>
@@ -52,23 +59,21 @@ const HomeScreen = () => {
         />
 
         <PopularServiceSection
-  title="Popular Services"
-  data={popularServices}
-  onPressItem={(service) =>
-    router.push(`/service/${service.id}`)
-  }
-/>
+          title="Popular Services"
+          data={popularServices}
+          onPressItem={(service) =>
+            router.push(`/service/${service.id}`)
+          }
+        />
 
-<RecommendedSection
-  title="Recommended For You"
-  data={recommendedServices}
-  onPressItem={(service) =>
-    router.push(`/service/${service.id}`)
-  }
-/>
+        <RecommendedSection
+          title="Recommended For You"
+          data={recommendedServices}
+          onPressItem={(service) =>
+            router.push(`/service/${service.id}`)
+          }
+        />
       </ScrollView>
     </AppContainer>
   );
-};
-
-export default HomeScreen;
+}
