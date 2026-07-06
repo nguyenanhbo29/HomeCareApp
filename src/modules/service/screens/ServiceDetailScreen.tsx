@@ -99,11 +99,16 @@ export default function ServiceDetailScreen() {
       </ScrollView>
 
       <BottomBookingBar
-        price={service.price}
-        onBookNow={() => {
-          router.push("/booking");
-        }}
-      />
+    price={service.price}
+    onBookNow={() =>
+        router.push({
+            pathname: "/booking",
+            params: {
+                serviceId: service.id,
+            },
+        })
+    }
+/>
     </AppContainer>
   );
 }

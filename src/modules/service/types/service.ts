@@ -1,11 +1,25 @@
-export interface Service {
+import { Ionicons } from "@expo/vector-icons";
+
+export interface Category {
   id: string;
   name: string;
-  category: string;
+  icon: string;
+  color: string;
+}
+
+export interface Service {
+  id: string;
+
+  name: string;
+
+  category: Category;
+
   image: string;
 
   price: number;
+
   rating: number;
+
   duration: string;
 
   description?: string;
@@ -13,11 +27,12 @@ export interface Service {
   isFavorite?: boolean;
 }
 
-import { Ionicons } from "@expo/vector-icons";
-
 export interface ServiceFeature {
   id: string;
+
   icon: keyof typeof Ionicons.glyphMap;
+
   title: string;
+
   color: string;
 }

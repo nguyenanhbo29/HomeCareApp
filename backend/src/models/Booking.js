@@ -2,39 +2,54 @@ const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema(
   {
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: false,
     },
-    serviceId: {
+
+    service: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Service",
       required: true,
     },
-    serviceName: {
+
+    bookingDate: {
+      type: Date,
+      required: true,
+    },
+
+    bookingTime: {
       type: String,
       required: true,
     },
-    date: {
-      type: String,
-      required: true,
-    },
-    time: {
-      type: String,
-      required: true,
-    },
+
     address: {
       type: String,
       required: true,
+      trim: true,
     },
-    notes: {
+
+    note: {
       type: String,
       default: "",
     },
+
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
+
     status: {
       type: String,
-      default: "pending",
+      enum: ["Pending", "Confirmed", "Completed", "Cancelled"],
+      default: "Pending",
+    },
+
+    paymentStatus: {
+      type: String,
+      enum: ["Unpaid", "Paid"],
+      default: "Unpaid",
     },
   },
   {
