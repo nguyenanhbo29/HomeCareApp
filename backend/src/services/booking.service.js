@@ -1,79 +1,71 @@
 const Booking = require("../models/Booking");
 
 /**
- * Create booking
+ * Create Booking
  */
 async function createBooking(data) {
   return await Booking.create(data);
 }
 
 /**
- * Get all bookings
- * Admin sử dụng
- */
-async function getAllBookings() {
-  return await Booking.find()
-    .populate("user")
-    .populate("service")
-    .sort({ createdAt: -1 });
-}
-
-/**
- * Get booking by id
- */
-async function getBookingById(id) {
-  return await Booking.findById(id).populate("user").populate("service");
-}
-
-/**
- * Get bookings by user
+ * Get Current User Bookings
  */
 async function getUserBookings(userId) {
-  return await Booking.find({ user: userId })
-    .populate("service")
-    .sort({ createdAt: -1 });
-}
-
-/**
- * Get bookings by status
- * Admin / Staff
- */
-async function getBookingsByStatus(status) {
-  return await Booking.find({ status })
-    .populate("user")
-    .populate("service")
-    .sort({ createdAt: -1 });
-}
-
-/**
- * Update booking
- */
-async function updateBooking(id, updateData) {
-  return await Booking.findByIdAndUpdate(id, updateData, {
-    new: true,
-    runValidators: true,
+  return await Booking.find({
+    user: userId,
   })
-    .populate("user")
-    .populate("service");
+    .populate("service")
+    .sort({
+      createdAt: -1,
+    });
 }
 
 /**
- * Delete booking
+ * Get Booking Detail
+ * Only owner can view
  */
-async function deleteBooking(id) {
-  return await Booking.findByIdAndDelete(id);
+async function getBookingById(id, userId) {
+  return await Booking.findOne({
+    _id: id,
+    user: userId,
+  }).populate("service");
+}
+
+/**
+ * Update Booking
+ * Only owner can update
+ */
+async function updateBooking(id, userId, updateData) {
+  return await Booking.findOneAndUpdate(
+    {
+      _id: id,
+      user: userId,
+    },
+    updateData,
+    {
+      new: true,
+      runValidators: true,
+    },
+  ).populate("service");
+}
+
+/**
+ * Delete Booking
+ * Only owner can delete
+ */
+async function deleteBooking(id, userId) {
+  return await Booking.findOneAndDelete({
+    _id: id,
+    user: userId,
+  });
 }
 
 module.exports = {
   createBooking,
 
-  getAllBookings,
-
-  getBookingById,
-
   getUserBookings,
 
-  getBookingsByStatus,
+  getBookingById,
 
   updateBooking,
 

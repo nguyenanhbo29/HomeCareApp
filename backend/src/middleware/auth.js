@@ -8,12 +8,16 @@ function authenticateToken(req, res, next) {
     return res.status(401).json({ message: "Access token required" });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
     if (error) {
       return res.status(403).json({ message: "Invalid token" });
     }
 
-    req.user = user;
+    req.user = {
+      id: decoded.id,
+      email: decoded.email,
+      role: decoded.role,
+    };
     next();
   });
 }

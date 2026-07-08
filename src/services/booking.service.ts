@@ -1,9 +1,7 @@
 import api from "../api/axios";
 import { ENDPOINTS } from "../api/endpoints";
 
-import {
-  Booking,
-} from "../modules/booking/types/booking";
+import { Booking } from "../modules/booking/types/booking";
 
 export interface CreateBookingRequest {
   service: string;
@@ -35,6 +33,9 @@ export interface UpdateBookingRequest {
   totalPrice?: number;
 }
 
+/**
+ * Create Booking
+ */
 export async function createBooking(
   data: CreateBookingRequest
 ): Promise<Booking> {
@@ -46,7 +47,10 @@ export async function createBooking(
   return response.data.data;
 }
 
-export async function getBookings(): Promise<
+/**
+ * Get Current User Bookings
+ */
+export async function getMyBookings(): Promise<
   Booking[]
 > {
   const response = await api.get(
@@ -56,6 +60,9 @@ export async function getBookings(): Promise<
   return response.data.data;
 }
 
+/**
+ * Get Booking Detail
+ */
 export async function getBookingDetail(
   id: string
 ): Promise<Booking> {
@@ -66,6 +73,9 @@ export async function getBookingDetail(
   return response.data.data;
 }
 
+/**
+ * Update Booking
+ */
 export async function updateBooking(
   id: string,
   data: UpdateBookingRequest
@@ -78,6 +88,9 @@ export async function updateBooking(
   return response.data.data;
 }
 
+/**
+ * Delete Booking
+ */
 export async function deleteBooking(
   id: string
 ): Promise<void> {

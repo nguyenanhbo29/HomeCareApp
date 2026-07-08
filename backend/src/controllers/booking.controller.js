@@ -5,9 +5,14 @@ const bookingService = require("../services/booking.service");
  */
 async function createBooking(req, res) {
   try {
-    const booking = await bookingService.createBooking(req.body);
+    const bookingData = {
+      ...req.body,
+      user: req.user.id,
+    };
 
-    res.status(201).json({
+    const booking = await bookingService.createBooking(bookingData);
+
+    return res.status(201).json({
       success: true,
       message: "Booking created successfully",
       data: booking,
@@ -15,7 +20,7 @@ async function createBooking(req, res) {
   } catch (error) {
     console.error(error);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -23,14 +28,13 @@ async function createBooking(req, res) {
 }
 
 /**
- * Get All Bookings
- * Admin
+ * Get Current User Bookings
  */
-async function getAllBookings(req, res) {
+async function getUserBookings(req, res) {
   try {
-    const bookings = await bookingService.getAllBookings();
+    const bookings = await bookingService.getUserBookings(req.user.id);
 
-    res.json({
+    return res.status(200).json({
       success: true,
       message: "Bookings fetched successfully",
       data: bookings,
@@ -38,7 +42,7 @@ async function getAllBookings(req, res) {
   } catch (error) {
     console.error(error);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -46,11 +50,14 @@ async function getAllBookings(req, res) {
 }
 
 /**
- * Get Booking By Id
+ * Get Booking Detail
  */
 async function getBooking(req, res) {
   try {
-    const booking = await bookingService.getBookingById(req.params.id);
+    const booking = await bookingService.getBookingById(
+      req.params.id,
+      req.user.id,
+    );
 
     if (!booking) {
       return res.status(404).json({
@@ -59,7 +66,7 @@ async function getBooking(req, res) {
       });
     }
 
-    res.json({
+    return res.status(200).json({
       success: true,
       message: "Booking fetched successfully",
       data: booking,
@@ -67,53 +74,7 @@ async function getBooking(req, res) {
   } catch (error) {
     console.error(error);
 
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-}
-
-/**
- * Get User Bookings
- */
-async function getUserBookings(req, res) {
-  try {
-    const bookings = await bookingService.getUserBookings(req.params.userId);
-
-    res.json({
-      success: true,
-      message: "User bookings fetched successfully",
-      data: bookings,
-    });
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-}
-
-/**
- * Get Bookings By Status
- */
-async function getBookingsByStatus(req, res) {
-  try {
-    const bookings = await bookingService.getBookingsByStatus(
-      req.params.status,
-    );
-
-    res.json({
-      success: true,
-      message: "Bookings fetched successfully",
-      data: bookings,
-    });
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -125,7 +86,11 @@ async function getBookingsByStatus(req, res) {
  */
 async function updateBooking(req, res) {
   try {
-    const booking = await bookingService.updateBooking(req.params.id, req.body);
+    const booking = await bookingService.updateBooking(
+      req.params.id,
+      req.user.id,
+      req.body,
+    );
 
     if (!booking) {
       return res.status(404).json({
@@ -134,7 +99,7 @@ async function updateBooking(req, res) {
       });
     }
 
-    res.json({
+    return res.status(200).json({
       success: true,
       message: "Booking updated successfully",
       data: booking,
@@ -142,7 +107,7 @@ async function updateBooking(req, res) {
   } catch (error) {
     console.error(error);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -154,7 +119,10 @@ async function updateBooking(req, res) {
  */
 async function deleteBooking(req, res) {
   try {
-    const booking = await bookingService.deleteBooking(req.params.id);
+    const booking = await bookingService.deleteBooking(
+      req.params.id,
+      req.user.id,
+    );
 
     if (!booking) {
       return res.status(404).json({
@@ -163,15 +131,15 @@ async function deleteBooking(req, res) {
       });
     }
 
-    res.json({
+    return res.status(200).json({
       success: true,
-      message: "Booking deleted successfully",
+      message: "Booking cancelled successfully",
       data: booking,
     });
   } catch (error) {
     console.error(error);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -180,10 +148,8 @@ async function deleteBooking(req, res) {
 
 module.exports = {
   createBooking,
-  getAllBookings,
-  getBooking,
   getUserBookings,
-  getBookingsByStatus,
+  getBooking,
   updateBooking,
   deleteBooking,
 };

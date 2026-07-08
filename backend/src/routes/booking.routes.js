@@ -2,22 +2,20 @@ const express = require("express");
 
 const {
   createBooking,
-  getAllBookings,
   getBooking,
   getUserBookings,
-  getBookingsByStatus,
   updateBooking,
   deleteBooking,
 } = require("../controllers/booking.controller");
 
-// const { authenticateToken } = require("../middleware/auth");
+const { authenticateToken } = require("../middleware/auth");
 
 const router = express.Router();
 
 /**
  * Require Login
  */
-// router.use(authenticateToken);
+router.use(authenticateToken);
 
 /**
  * Create Booking
@@ -25,22 +23,12 @@ const router = express.Router();
 router.post("/", createBooking);
 
 /**
- * Get All Bookings (Admin)
+ * Current User Bookings
  */
-router.get("/", getAllBookings);
+router.get("/", getUserBookings);
 
 /**
- * Get Current User Bookings
- */
-router.get("/user/:userId", getUserBookings);
-
-/**
- * Filter Booking By Status
- */
-router.get("/status/:status", getBookingsByStatus);
-
-/**
- * Get Booking Detail
+ * Booking Detail
  */
 router.get("/:id", getBooking);
 
@@ -50,7 +38,7 @@ router.get("/:id", getBooking);
 router.put("/:id", updateBooking);
 
 /**
- * Delete Booking
+ * Cancel Booking
  */
 router.delete("/:id", deleteBooking);
 

@@ -1,10 +1,10 @@
 import {
-  useState,
   useEffect,
+  useState,
 } from "react";
 
 import {
-  getBookings,
+  getMyBookings,
 } from "../services/booking.service";
 
 import {
@@ -24,10 +24,11 @@ export default function useBookings() {
   async function fetchBookings() {
     try {
       setLoading(true);
+
       setError(null);
 
       const data =
-        await getBookings();
+        await getMyBookings();
 
       setBookings(data);
     } catch (err: any) {
