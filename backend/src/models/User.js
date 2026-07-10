@@ -32,6 +32,11 @@ const userSchema = new mongoose.Schema(
       enum: ["Customer", "Admin"],
       default: "Customer",
     },
+    status: {
+      type: String,
+      enum: ["Active", "Blocked"],
+      default: "Active",
+    },
   },
   {
     timestamps: true,
