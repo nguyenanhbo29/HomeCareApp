@@ -6,14 +6,14 @@ export function useAuth() {
 
   const signIn = useCallback(
     async (email: string, password: string) => {
-      await login(email, password);
+      return await login(email, password);
     },
     [login],
   );
 
   const signUp = useCallback(
     async (fullName: string, email: string, password: string) => {
-      await register(fullName, email, password);
+      return await register(fullName, email, password);
     },
     [register],
   );

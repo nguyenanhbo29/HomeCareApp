@@ -60,6 +60,39 @@ async function deleteBooking(id, userId) {
   });
 }
 
+/**
+ * Get All Bookings (Admin)
+ */
+async function getAllBookings() {
+  return await Booking.find({})
+    .populate("service")
+    .populate("user", "fullName email phone")
+    .sort({
+      createdAt: -1,
+    });
+}
+
+/**
+ * Get Booking Detail By Admin
+ */
+async function getBookingByIdAdmin(id) {
+  return await Booking.findById(id)
+    .populate("service")
+    .populate("user", "fullName email phone");
+}
+
+/**
+ * Update Booking By Admin
+ */
+async function updateBookingAdmin(id, updateData) {
+  return await Booking.findByIdAndUpdate(id, updateData, {
+    new: true,
+    runValidators: true,
+  })
+    .populate("service")
+    .populate("user", "fullName email phone");
+}
+
 module.exports = {
   createBooking,
 
@@ -70,4 +103,10 @@ module.exports = {
   updateBooking,
 
   deleteBooking,
+
+  getAllBookings,
+
+  getBookingByIdAdmin,
+
+  updateBookingAdmin,
 };

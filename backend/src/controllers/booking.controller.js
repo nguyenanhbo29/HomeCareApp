@@ -32,7 +32,12 @@ async function createBooking(req, res) {
  */
 async function getUserBookings(req, res) {
   try {
-    const bookings = await bookingService.getUserBookings(req.user.id);
+    let bookings;
+    if (req.user.role === "Admin") {
+      bookings = await bookingService.getAllBookings();
+    } else {
+      bookings = await bookingService.getUserBookings(req.user.id);
+    }
 
     return res.status(200).json({
       success: true,
@@ -54,10 +59,15 @@ async function getUserBookings(req, res) {
  */
 async function getBooking(req, res) {
   try {
-    const booking = await bookingService.getBookingById(
-      req.params.id,
-      req.user.id,
-    );
+    let booking;
+    if (req.user.role === "Admin") {
+      booking = await bookingService.getBookingByIdAdmin(req.params.id);
+    } else {
+      booking = await bookingService.getBookingById(
+        req.params.id,
+        req.user.id,
+      );
+    }
 
     if (!booking) {
       return res.status(404).json({
@@ -86,11 +96,19 @@ async function getBooking(req, res) {
  */
 async function updateBooking(req, res) {
   try {
-    const booking = await bookingService.updateBooking(
-      req.params.id,
-      req.user.id,
-      req.body,
-    );
+    let booking;
+    if (req.user.role === "Admin") {
+      booking = await bookingService.updateBookingAdmin(
+        req.params.id,
+        req.body,
+      );
+    } else {
+      booking = await bookingService.updateBooking(
+        req.params.id,
+        req.user.id,
+        req.body,
+      );
+    }
 
     if (!booking) {
       return res.status(404).json({

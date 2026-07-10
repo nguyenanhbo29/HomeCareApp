@@ -4,13 +4,14 @@ import {
   StyleSheet,
   TextProps,
   TextStyle,
+  StyleProp,
 } from "react-native";
 
 import { Colors, Typography } from "../../theme";
 
 interface AppTextProps extends TextProps {
   children: React.ReactNode;
-  style?: TextStyle;
+  style?: StyleProp<TextStyle>;
 }
 
 export default function AppText({
