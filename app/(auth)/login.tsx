@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import AppContainer from "../../src/components/common/AppContainer";
 import AppButton from "../../src/components/common/AppButton";
 import AppText from "../../src/components/common/AppText";
@@ -38,7 +39,14 @@ export default function LoginScreen() {
 
   return (
     <AppContainer>
-      <View style={styles.wrapper}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.wrapper}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        enableOnAndroid={true}
+        enableAutomaticScroll={true}
+        extraScrollHeight={50}
+      >
         <AppText style={styles.title}>Welcome back</AppText>
         <View style={styles.form}>
           <AppText style={styles.label}>Email</AppText>
@@ -72,14 +80,14 @@ export default function LoginScreen() {
             <AppText style={styles.footerLink}>Register</AppText>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAwareScrollView>
     </AppContainer>
   );
 }
 
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: "center",
   },
   title: {
