@@ -28,8 +28,12 @@ export default function LoginScreen() {
 
     try {
       setLoading(true);
-      await signIn(email, password);
-      router.push("/home");
+      const user = await signIn(email, password);
+      if (user?.role === "Admin") {
+        router.replace("/admin/dashboard");
+      } else {
+        router.replace("/(tabs)/home");
+      }
     } catch (error: any) {
       Alert.alert("Login failed", error.message || "Unable to login.");
     } finally {

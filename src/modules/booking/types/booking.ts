@@ -73,6 +73,12 @@ export interface Booking {
 
   paymentStatus: PaymentStatus;
 
+  user?: {
+    fullName: string;
+    email: string;
+    phone: string;
+  } | string;
+
   createdAt: string;
 
   updatedAt: string;

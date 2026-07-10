@@ -24,13 +24,13 @@ interface AuthContextValue {
   login: (
     email: string,
     password: string
-  ) => Promise<void>;
+  ) => Promise<AuthUser>;
 
   register: (
     fullName: string,
     email: string,
     password: string
-  ) => Promise<void>;
+  ) => Promise<AuthUser>;
 
   logout: () => Promise<void>;
 }
@@ -115,6 +115,7 @@ export function AuthProvider({
 
     setToken(token);
     setCurrentUser(user);
+    return user;
   }
 
   async function register(
@@ -150,6 +151,7 @@ export function AuthProvider({
 
     setToken(token);
     setCurrentUser(user);
+    return user;
   }
 
   async function logout() {

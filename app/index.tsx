@@ -6,6 +6,7 @@ export default function Index() {
   const {
     loading,
     isAuthenticated,
+    currentUser,
   } = useAuth();
 
   if (loading) {
@@ -13,6 +14,9 @@ export default function Index() {
   }
 
   if (isAuthenticated) {
+    if (currentUser?.role === "Admin") {
+      return <Redirect href="/admin/dashboard" />;
+    }
     return <Redirect href="/(tabs)/home" />;
   }
 

@@ -93,6 +93,28 @@ export default function ProfileScreen() {
           </View>
         </View>
 
+        {/* Admin Controls Section */}
+        {currentUser.role === "Admin" && (
+          <View style={styles.section}>
+            <AppText style={styles.sectionTitle}>Admin Controls</AppText>
+            <View style={styles.card}>
+              <TouchableOpacity 
+                style={styles.menuItem} 
+                onPress={() => router.push("/admin/dashboard")}
+                activeOpacity={0.7}
+              >
+                <View style={styles.menuItemLeft}>
+                  <View style={[styles.menuIconWrapper, { backgroundColor: "#F5F3FF" }]}>
+                    <Ionicons name="grid-outline" size={20} color="#6C4CF1" />
+                  </View>
+                  <AppText style={styles.menuItemText}>Admin Dashboard</AppText>
+                </View>
+                <Ionicons name="chevron-forward-outline" size={20} color={Colors.textLight} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+
         {/* Actions Section */}
         <View style={styles.section}>
           <AppText style={styles.sectionTitle}>Account Settings</AppText>
