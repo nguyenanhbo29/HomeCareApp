@@ -5,14 +5,13 @@ import { Ionicons } from "@expo/vector-icons";
 import AppContainer from "../../src/components/common/AppContainer";
 import AppText from "../../src/components/common/AppText";
 import { useAuth } from "../../src/hooks/useAuth";
-import { getMyBookings } from "../../src/services/booking.service";
-import { Booking } from "../../src/modules/booking/types/booking";
+import { getAdvancedStats, AdminStats } from "../../src/services/admin.service";
 import { Colors } from "../../src/theme";
 
 export default function AdminDashboard() {
   const router = useRouter();
   const { currentUser, signOut } = useAuth();
-  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [stats, setStats] = useState<AdminStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,8 +19,8 @@ export default function AdminDashboard() {
     try {
       setLoading(true);
       setError(null);
-      const data = await getMyBookings();
-      setBookings(data);
+      const data = await getAdvancedStats();
+      setStats(data);
     } catch (err: any) {
       setError(err?.response?.data?.message || "Failed to load admin stats");
     } finally {
@@ -32,13 +31,6 @@ export default function AdminDashboard() {
   useEffect(() => {
     fetchStats();
   }, []);
-
-  // Calculate statistics
-  const totalBookings = bookings.length;
-  const pendingBookings = bookings.filter((b) => b.status === "Pending").length;
-  const totalRevenue = bookings
-    .filter((b) => b.status === "Completed" || b.paymentStatus === "Paid")
-    .reduce((sum, b) => sum + b.totalPrice, 0);
 
   const handleLogout = async () => {
     try {
@@ -54,7 +46,7 @@ export default function AdminDashboard() {
       <AppContainer>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={Colors.primary} />
-          <AppText style={styles.loadingText}>Loading statistics...</AppText>
+          <AppText style={styles.loadingText}>Loading dashboard...</AppText>
         </View>
       </AppContainer>
     );
@@ -84,7 +76,7 @@ export default function AdminDashboard() {
             <View style={styles.statsInfo}>
               <AppText style={styles.statsLabel}>Total Revenue</AppText>
               <AppText style={styles.statsValue}>
-                ${totalRevenue.toLocaleString()}
+                ${(stats?.totalRevenue || 0).toLocaleString()}
               </AppText>
             </View>
           </View>
@@ -96,7 +88,7 @@ export default function AdminDashboard() {
             </View>
             <View style={styles.statsInfo}>
               <AppText style={styles.statsLabel}>Total Bookings</AppText>
-              <AppText style={styles.statsValue}>{totalBookings}</AppText>
+              <AppText style={styles.statsValue}>{stats?.totalBookings || 0}</AppText>
             </View>
           </View>
 
@@ -107,7 +99,7 @@ export default function AdminDashboard() {
             </View>
             <View style={styles.statsInfo}>
               <AppText style={styles.statsLabel}>Pending Approval</AppText>
-              <AppText style={styles.statsValue}>{pendingBookings}</AppText>
+              <AppText style={styles.statsValue}>{stats?.pendingBookings || 0}</AppText>
             </View>
           </View>
         </View>
@@ -135,12 +127,63 @@ export default function AdminDashboard() {
 
           <TouchableOpacity 
             style={[styles.actionBtn, { marginTop: 12 }]}
-            onPress={() => router.replace("/(tabs)/home")}
+            onPress={() => router.push("/admin/services")}
             activeOpacity={0.8}
           >
             <View style={styles.actionBtnLeft}>
               <View style={[styles.actionIconBg, { backgroundColor: "#EBF5FF" }]}>
-                <Ionicons name="phone-portrait-outline" size={24} color={Colors.primary} />
+                <Ionicons name="construct-outline" size={24} color={Colors.primary} />
+              </View>
+              <View>
+                <AppText style={styles.actionBtnTitle}>Manage Services</AppText>
+                <AppText style={styles.actionBtnSub}>Create, edit, or delete service packages</AppText>
+              </View>
+            </View>
+            <Ionicons name="chevron-forward-outline" size={20} color={Colors.textLight} />
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={[styles.actionBtn, { marginTop: 12 }]}
+            onPress={() => router.push("/admin/users")}
+            activeOpacity={0.8}
+          >
+            <View style={styles.actionBtnLeft}>
+              <View style={[styles.actionIconBg, { backgroundColor: "#EBF5FF" }]}>
+                <Ionicons name="people-outline" size={24} color={Colors.primary} />
+              </View>
+              <View>
+                <AppText style={styles.actionBtnTitle}>Manage Users</AppText>
+                <AppText style={styles.actionBtnSub}>View users list and toggle block status</AppText>
+              </View>
+            </View>
+            <Ionicons name="chevron-forward-outline" size={20} color={Colors.textLight} />
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={[styles.actionBtn, { marginTop: 12 }]}
+            onPress={() => router.push("/admin/stats")}
+            activeOpacity={0.8}
+          >
+            <View style={styles.actionBtnLeft}>
+              <View style={[styles.actionIconBg, { backgroundColor: "#E6F4EA" }]}>
+                <Ionicons name="bar-chart-outline" size={24} color={Colors.success} />
+              </View>
+              <View>
+                <AppText style={styles.actionBtnTitle}>Business Analytics</AppText>
+                <AppText style={styles.actionBtnSub}>Revenue charts and monthly trends</AppText>
+              </View>
+            </View>
+            <Ionicons name="chevron-forward-outline" size={20} color={Colors.textLight} />
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={[styles.actionBtn, { marginTop: 24, backgroundColor: "#F9FAFB" }]}
+            onPress={() => router.replace("/(tabs)/home")}
+            activeOpacity={0.8}
+          >
+            <View style={styles.actionBtnLeft}>
+              <View style={[styles.actionIconBg, { backgroundColor: "#E5E7EB" }]}>
+                <Ionicons name="phone-portrait-outline" size={24} color={Colors.textSecondary} />
               </View>
               <View>
                 <AppText style={styles.actionBtnTitle}>Back to Customer App</AppText>

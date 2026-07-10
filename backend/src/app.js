@@ -17,4 +17,5 @@ app.use("/api/categories", require("./routes/category.routes"));
 app.use("/api/services", require("./routes/service.routes"));
 app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/bookings", require("./routes/booking.routes"));
+app.use("/api/users", require("./routes/user.routes"));
 module.exports = app;

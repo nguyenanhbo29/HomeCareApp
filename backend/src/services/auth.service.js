@@ -65,6 +65,7 @@ async function registerUser({ fullName, email, password }) {
       phone: user.phone,
       avatar: user.avatar,
       role: user.role,
+      status: user.status,
     },
   };
 }
@@ -88,6 +89,10 @@ async function loginUser({ email, password }) {
   // Không phân biệt email hay password sai
   if (!user) {
     throw new Error("Invalid email or password.");
+  }
+
+  if (user.status === "Blocked") {
+    throw new Error("Your account has been blocked.");
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
@@ -117,6 +122,7 @@ async function loginUser({ email, password }) {
       phone: user.phone,
       avatar: user.avatar,
       role: user.role,
+      status: user.status,
     },
   };
 }
@@ -138,6 +144,7 @@ async function getProfile(userId) {
     phone: user.phone,
     avatar: user.avatar,
     role: user.role,
+    status: user.status,
   };
 }
 
@@ -175,6 +182,7 @@ async function updateProfile(userId, data) {
     phone: user.phone,
     avatar: user.avatar,
     role: user.role,
+    status: user.status,
   };
 }
 
