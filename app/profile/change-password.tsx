@@ -5,7 +5,9 @@ import {
   TextInput,
   StyleSheet,
   Alert,
+  TouchableOpacity,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import AppContainer from "../../src/components/common/AppContainer";
 import AppButton from "../../src/components/common/AppButton";
 import AppText from "../../src/components/common/AppText";
@@ -49,6 +51,10 @@ export default function ChangePasswordScreen() {
   return (
     <AppContainer>
       <View style={styles.wrapper}>
+        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+          <Ionicons name="arrow-back" size={24} color="#111827" />
+        </TouchableOpacity>
+
         <AppText style={styles.title}>Change Password</AppText>
         <View style={styles.form}>
           <AppText style={styles.label}>Old Password</AppText>
@@ -90,7 +96,16 @@ export default function ChangePasswordScreen() {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    paddingTop: 16,
+  },
+  backButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "#F3F4F6",
     justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
   },
   title: {
     fontSize: 28,
@@ -114,4 +129,4 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     backgroundColor: "#fff",
   },
-});
+});

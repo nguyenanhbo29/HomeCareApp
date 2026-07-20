@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, Alert, Modal, TextInput, ScrollView, Switch } from "react-native";
+import { View, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, Alert, Modal, TextInput, ScrollView, Switch, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import AppContainer from "../../src/components/common/AppContainer";
@@ -31,6 +31,11 @@ export default function AdminServices() {
   const [isPopular, setIsPopular] = useState(false);
   const [isRecommended, setIsRecommended] = useState(false);
 
+  const getCatId = (cat: any) => {
+    if (!cat) return "";
+    return cat._id || cat.id || (typeof cat === "string" ? cat : "");
+  };
+
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -41,7 +46,7 @@ export default function AdminServices() {
       setServices(serviceList);
       setCategories(categoryList);
       if (categoryList.length > 0) {
-        setSelectedCategory(categoryList[0]._id);
+        setSelectedCategory(getCatId(categoryList[0]));
       }
     } catch (err: any) {
       Alert.alert("Error", err?.response?.data?.message || "Failed to fetch data");
@@ -61,7 +66,7 @@ export default function AdminServices() {
     setPrice("");
     setDuration("");
     if (categories.length > 0) {
-      setSelectedCategory(categories[0]._id);
+      setSelectedCategory(getCatId(categories[0]));
     }
     setImageUrl("https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500");
     setIcon("build-outline");
@@ -77,7 +82,7 @@ export default function AdminServices() {
     setDescription(service.description);
     setPrice(service.price.toString());
     setDuration(service.duration);
-    setSelectedCategory(service.category?._id || service.category || "");
+    setSelectedCategory(getCatId(service.category));
     setImageUrl(service.image || "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500");
     setIcon(service.icon || "build-outline");
     setColor(service.color || "#6C4CF1");
@@ -87,20 +92,50 @@ export default function AdminServices() {
   };
 
   const handleSave = async () => {
-    if (!name || !description || !price || !duration || !selectedCategory) {
-      Alert.alert("Validation Error", "Please fill in all required fields.");
+    if (!name?.trim()) {
+      const msg = "Vui lòng cuộn lên và nhập Tên dịch vụ (Service Name).";
+      if (Platform.OS === "web") window.alert(msg);
+      else Alert.alert("Validation Error", msg);
+      return;
+    }
+
+    if (!description?.trim()) {
+      const msg = "Vui lòng nhập Mô tả dịch vụ (Description).";
+      if (Platform.OS === "web") window.alert(msg);
+      else Alert.alert("Validation Error", msg);
+      return;
+    }
+
+    if (!price || isNaN(parseFloat(price))) {
+      const msg = "Vui lòng nhập Giá dịch vụ hợp lệ (Price).";
+      if (Platform.OS === "web") window.alert(msg);
+      else Alert.alert("Validation Error", msg);
+      return;
+    }
+
+    if (!duration?.trim()) {
+      const msg = "Vui lòng nhập Thời lượng (Duration).";
+      if (Platform.OS === "web") window.alert(msg);
+      else Alert.alert("Validation Error", msg);
+      return;
+    }
+
+    if (!selectedCategory) {
+      const msg = "Vui lòng chọn Danh mục (Category).";
+      if (Platform.OS === "web") window.alert(msg);
+      else Alert.alert("Validation Error", msg);
       return;
     }
 
     const payload = {
-      name,
-      description,
+      name: name.trim(),
+      description: description.trim(),
       price: parseFloat(price),
-      duration,
+      duration: duration.trim(),
       category: selectedCategory,
-      image: imageUrl,
-      icon,
-      color,
+      image: imageUrl || "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500",
+      icon: icon || "build-outline",
+      color: color || "#6C4CF1",
       isPopular,
       isRecommended,
     };
@@ -109,15 +144,21 @@ export default function AdminServices() {
       setLoading(true);
       if (editingService) {
         await updateService(editingService._id, payload);
-        Alert.alert("Success", "Service package updated successfully.");
+        const msg = "Cập nhật gói dịch vụ thành công!";
+        if (Platform.OS === "web") window.alert(msg);
+        else Alert.alert("Success", msg);
       } else {
         await createService(payload);
-        Alert.alert("Success", "Service package created successfully.");
+        const msg = "Tạo gói dịch vụ mới thành công!";
+        if (Platform.OS === "web") window.alert(msg);
+        else Alert.alert("Success", msg);
       }
       setModalVisible(false);
       fetchData();
     } catch (err: any) {
-      Alert.alert("Error", err?.response?.data?.message || "Failed to save service");
+      const errMsg = err?.response?.data?.message || err.message || "Failed to save service";
+      if (Platform.OS === "web") window.alert("Lỗi: " + errMsg);
+      else Alert.alert("Error", errMsg);
       setLoading(false);
     }
   };
@@ -239,20 +280,24 @@ export default function AdminServices() {
 
               <AppText style={styles.label}>Category *</AppText>
               <View style={styles.categoryPicker}>
-                {categories.map((cat) => (
-                  <TouchableOpacity
-                    key={cat._id}
-                    style={[
-                      styles.categoryChip,
-                      selectedCategory === cat._id && { backgroundColor: Colors.primary, borderColor: Colors.primary }
-                    ]}
-                    onPress={() => setSelectedCategory(cat._id)}
-                  >
-                    <AppText style={[styles.categoryChipText, selectedCategory === cat._id && { color: Colors.surface }]}>
-                      {cat.name}
-                    </AppText>
-                  </TouchableOpacity>
-                ))}
+                {categories.map((cat) => {
+                  const catId = getCatId(cat);
+                  const isSelected = selectedCategory === catId;
+                  return (
+                    <TouchableOpacity
+                      key={catId}
+                      style={[
+                        styles.categoryChip,
+                        isSelected && { backgroundColor: Colors.primary, borderColor: Colors.primary }
+                      ]}
+                      onPress={() => setSelectedCategory(catId)}
+                    >
+                      <AppText style={[styles.categoryChipText, isSelected && { color: Colors.surface }]}>
+                        {cat.name}
+                      </AppText>
+                    </TouchableOpacity>
+                  );
+                })}
               </View>
 
               <AppText style={styles.label}>Image URL</AppText>
