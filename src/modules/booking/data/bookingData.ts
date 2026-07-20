@@ -1,59 +1,76 @@
-export const bookingDates = [
-  {
-    id: "1",
-    day: "MON",
-    date: "06",
-  },
-  {
-    id: "2",
-    day: "TUE",
-    date: "07",
-  },
-  {
-    id: "3",
-    day: "WED",
-    date: "08",
-  },
-  {
-    id: "4",
-    day: "THU",
-    date: "09",
-  },
-  {
-    id: "5",
-    day: "FRI",
-    date: "10",
-  },
-  {
-    id: "6",
-    day: "SAT",
-    date: "11",
-  },
-];
+const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-export const bookingTimes = [
-  {
-    id: "1",
-    time: "08:00",
-  },
-  {
-    id: "2",
-    time: "10:00",
-  },
-  {
-    id: "3",
-    time: "13:00",
-  },
-  {
-    id: "4",
-    time: "15:00",
-  },
-  {
-    id: "5",
-    time: "17:00",
-  },
-  {
-    id: "6",
-    time: "19:00",
-  },
-];
+export function generateBookingDates(daysCount = 14) {
+  const dates = [];
+  const today = new Date();
+
+  for (let i = 0; i < daysCount; i++) {
+    const d = new Date();
+    d.setDate(today.getDate() + i);
+
+    const dayName = DAYS[d.getDay()];
+    const dateNum = String(d.getDate()).padStart(2, "0");
+    const monthNum = String(d.getMonth() + 1).padStart(2, "0");
+    const yearNum = d.getFullYear();
+
+    const formattedDate = `${yearNum}-${monthNum}-${dateNum}`;
+
+    dates.push({
+      id: formattedDate,
+      day: dayName,
+      date: dateNum,
+    });
+  }
+
+  return dates;
+}
+
+export const bookingDates = generateBookingDates(14);
+
+
+export function generateBookingTimes(selectedDateStr?: string) {
+  const allTimes = [
+    "07:00",
+    "08:00",
+    "09:00",
+    "10:00",
+    "11:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00",
+    "18:00",
+    "19:00",
+    "20:00",
+  ];
+
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+  let availableTimes = allTimes;
+
+  // Nếu chọn ngày hôm nay, lọc bỏ các khung giờ đã qua trong ngày
+  if (selectedDateStr === todayStr) {
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+
+    availableTimes = allTimes.filter((t) => {
+      const [h, m] = t.split(":").map(Number);
+      if (h > currentHour) return true;
+      if (h === currentHour && m > currentMinute) return true;
+      return false;
+    });
+
+    if (availableTimes.length === 0) {
+      availableTimes = allTimes;
+    }
+  }
+
+  return availableTimes.map((time, index) => ({
+    id: String(index + 1),
+    time,
+  }));
+}
+
+export const bookingTimes = generateBookingTimes();

@@ -28,7 +28,7 @@ import useBooking from "../../../hooks/useBooking";
 
 import {
   bookingDates,
-  bookingTimes,
+  generateBookingTimes,
 } from "../data/bookingData";
 
 export default function BookingScreen() {
@@ -54,7 +54,7 @@ export default function BookingScreen() {
   } = useServiceDetail(selectedServiceId);
 
   const [selectedDate, setSelectedDate] =
-    useState("");
+    useState(bookingDates[0]?.id || "");
 
   const [selectedTime, setSelectedTime] =
     useState("");
@@ -64,6 +64,9 @@ export default function BookingScreen() {
 
   const [note, setNote] =
     useState("");
+
+  const timesData = generateBookingTimes(selectedDate);
+
 
   useEffect(() => {
     if (serviceId) {
@@ -190,7 +193,7 @@ Your booking has been created successfully.`,
           />
 
           <TimeSelector
-            data={bookingTimes}
+            data={timesData}
             selected={selectedTime}
             onSelect={setSelectedTime}
           />

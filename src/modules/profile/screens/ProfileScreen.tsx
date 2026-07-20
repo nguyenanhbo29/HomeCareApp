@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { View, Image, StyleSheet, TouchableOpacity, Alert, ScrollView } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity, Alert, ScrollView, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AppContainer from "../../../components/common/AppContainer";
 import AppText from "../../../components/common/AppText";
@@ -14,7 +14,23 @@ export default function ProfileScreen() {
     return null;
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const doLogout = async () => {
+      try {
+        router.replace("/login");
+        await signOut();
+      } catch (error: any) {
+        console.error("Logout failed", error);
+      }
+    };
+
+    if (Platform.OS === "web") {
+      if (window.confirm("Are you sure you want to log out?")) {
+        await doLogout();
+      }
+      return;
+    }
+
     Alert.alert(
       "Logout",
       "Are you sure you want to log out?",
@@ -23,14 +39,7 @@ export default function ProfileScreen() {
         {
           text: "Logout",
           style: "destructive",
-          onPress: async () => {
-            try {
-              await signOut();
-              router.replace("/login");
-            } catch (error: any) {
-              Alert.alert("Logout failed", error.message || "Unable to logout.");
-            }
-          },
+          onPress: doLogout,
         },
       ],
       { cancelable: true }

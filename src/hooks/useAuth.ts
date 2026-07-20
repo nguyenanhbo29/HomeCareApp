@@ -12,8 +12,8 @@ export function useAuth() {
   );
 
   const signUp = useCallback(
-    async (fullName: string, email: string, password: string) => {
-      return await register(fullName, email, password);
+    async (fullName: string, email: string, password: string, phone?: string) => {
+      return await register(fullName, email, password, phone);
     },
     [register],
   );

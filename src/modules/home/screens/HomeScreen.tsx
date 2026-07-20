@@ -14,9 +14,11 @@ import RecommendedSection from "../components/RecommendedSection";
 import useCategories from "../../../hooks/useCategories";
 import usePopularServices from "../../../hooks/usePopularServices";
 import useRecommendedServices from "../../../hooks/useRecommendedServices";
+import { useAuth } from "../../../hooks/useAuth";
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { currentUser } = useAuth();
 
   const [keyword, setKeyword] = useState("");
 
@@ -36,7 +38,7 @@ export default function HomeScreen() {
           paddingBottom: 30,
         }}
       >
-        <HomeHeader userName="Nguyen" />
+        <HomeHeader userName={currentUser?.fullName || "Khách"} />
 
         <SearchBar
           value={keyword}
