@@ -5,7 +5,7 @@ const User = require("../models/User");
 /**
  * Register
  */
-async function registerUser({ fullName, email, password }) {
+async function registerUser({ fullName, email, password, phone }) {
   if (!fullName?.trim()) {
     throw new Error("Full name is required.");
   }
@@ -42,6 +42,7 @@ async function registerUser({ fullName, email, password }) {
     fullName,
     email: email.toLowerCase(),
     password: hashedPassword,
+    phone: phone?.trim() || "",
   });
 
   const token = jwt.sign(

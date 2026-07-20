@@ -34,8 +34,8 @@ export default function AdminDashboard() {
 
   const handleLogout = async () => {
     try {
-      await signOut();
       router.replace("/login");
+      await signOut();
     } catch (error: any) {
       console.error("Logout failed", error);
     }

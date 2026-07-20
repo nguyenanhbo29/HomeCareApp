@@ -29,7 +29,8 @@ interface AuthContextValue {
   register: (
     fullName: string,
     email: string,
-    password: string
+    password: string,
+    phone?: string
   ) => Promise<AuthUser>;
 
   logout: () => Promise<void>;
@@ -121,13 +122,15 @@ export function AuthProvider({
   async function register(
     fullName: string,
     email: string,
-    password: string
+    password: string,
+    phone?: string
   ) {
     const response: AuthResponse =
       await registerService({
         fullName,
         email,
         password,
+        phone,
       });
 
     const token =
