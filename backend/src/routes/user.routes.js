@@ -1,6 +1,6 @@
 const express = require("express");
 const { authenticateToken } = require("../middleware/auth");
-const { listUsers, updateUserStatus } = require("../controllers/user.controller");
+const { listUsers, updateUserStatus, updateUserRole } = require("../controllers/user.controller");
 
 const router = express.Router();
 
@@ -17,5 +17,7 @@ const isAdmin = (req, res, next) => {
 
 router.get("/", authenticateToken, isAdmin, listUsers);
 router.put("/:id/status", authenticateToken, isAdmin, updateUserStatus);
+router.put("/:id/role", authenticateToken, isAdmin, updateUserRole);
 
 module.exports = router;
+

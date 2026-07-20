@@ -52,6 +52,17 @@ export async function updateUserStatus(
 }
 
 /**
+ * Update user role (Customer/Admin)
+ */
+export async function updateUserRole(
+  userId: string,
+  role: "Customer" | "Admin"
+): Promise<AdminUser> {
+  const response = await api.put(`/users/${userId}/role`, { role });
+  return response.data.data;
+}
+
+/**
  * Fetch advanced system stats
  */
 export async function getAdvancedStats(): Promise<AdminStats> {
