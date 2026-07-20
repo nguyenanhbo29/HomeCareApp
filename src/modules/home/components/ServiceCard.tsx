@@ -21,6 +21,16 @@ export default function ServiceCard({
   onPress,
   onPressFavorite,
 }: Props) {
+  const [isFavorite, setIsFavorite] = React.useState(
+    item.isFavorite ?? false
+  );
+
+  const toggleFavorite = () => {
+    const nextFav = !isFavorite;
+    setIsFavorite(nextFav);
+    onPressFavorite?.({ ...item, isFavorite: nextFav });
+  };
+
   return (
     <TouchableOpacity
       style={styles.card}
@@ -47,14 +57,10 @@ export default function ServiceCard({
         <TouchableOpacity
           style={styles.favoriteButton}
           activeOpacity={0.8}
-          onPress={() => onPressFavorite?.(item)}
+          onPress={toggleFavorite}
         >
           <Ionicons
-            name={
-              item.isFavorite
-                ? "heart"
-                : "heart-outline"
-            }
+            name={isFavorite ? "heart" : "heart-outline"}
             size={22}
             color="#FF4D6D"
           />

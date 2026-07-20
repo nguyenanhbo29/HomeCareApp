@@ -16,10 +16,21 @@ interface ServiceHeroProps {
 
 export default function ServiceHero({
   image,
-  isFavorite = false,
+  isFavorite: initialFav = false,
   onBack,
   onFavorite,
 }: ServiceHeroProps) {
+  const [isFavorite, setIsFavorite] = React.useState(initialFav);
+
+  React.useEffect(() => {
+    setIsFavorite(initialFav);
+  }, [initialFav]);
+
+  const toggleFav = () => {
+    setIsFavorite(!isFavorite);
+    onFavorite?.();
+  };
+
   return (
     <View style={styles.container}>
       {/* Background Image */}
@@ -60,7 +71,7 @@ export default function ServiceHero({
           styles.circleButton,
           styles.favoriteButton,
         ]}
-        onPress={onFavorite}
+        onPress={toggleFav}
       >
         <Ionicons
           name={
