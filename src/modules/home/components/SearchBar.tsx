@@ -1,15 +1,17 @@
 import React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 interface SearchBarProps {
   value?: string;
   onChangeText?: (text: string) => void;
+  onClear?: () => void;
 }
 
 export default function SearchBar({
   value,
   onChangeText,
+  onClear,
 }: SearchBarProps) {
   return (
     <View style={styles.container}>
@@ -17,11 +19,17 @@ export default function SearchBar({
 
       <TextInput
         style={styles.input}
-        placeholder="Search services, e.g. cleaning"
+        placeholder="Tìm kiếm dịch vụ (ví dụ: vệ sinh...)"
         placeholderTextColor="#9CA3AF"
         value={value}
         onChangeText={onChangeText}
       />
+
+      {Boolean(value) && (
+        <TouchableOpacity onPress={onClear || (() => onChangeText?.(""))}>
+          <Ionicons name="close-circle" size={20} color="#9CA3AF" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
